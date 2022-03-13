@@ -71,6 +71,7 @@ func main() {
 	// sessions always expires after 12 hours.
 	session := sessions.New([]byte(*secret))
 	session.Lifetime = 12 * time.Hour
+	session.Secure = true
 
 	// We also defer a call to db.Close(), so that the connection pool is close
 	// before the main() function exits.
@@ -103,7 +104,11 @@ func main() {
 
 	// Write messages using the two new loggers, instead of the standard logger
 	infoLog.Printf("Starting server on %s", *addr)
-	err = srv.ListenAndServe()
+
+	// Use the ListenAndServeTLS() method to start the HTTPS server. We
+	// pass in the paths to the TLS certificate and corresponding private key and
+	// the two parameters.
+	err = srv.ListenAndServeTLS("./tls/cert.pem", "./tls/key.pem")
 	errorLog.Fatal(err)
 }
 
