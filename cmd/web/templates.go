@@ -12,7 +12,7 @@ import (
 // Update the templateData fields, removing the individual FormData and
 // FormErrors fields and replacing them with a single Form field.
 type templateData struct {
-	AuthenticatedUser int
+	AuthenticatedUser *models.User
 	CSRFToken         string
 	CurrentYear       int
 	Flash             string

@@ -15,6 +15,10 @@ import (
 	"snippetbox.sekibomazic.com/pkg/models/mysql"
 )
 
+type contextKey string
+
+var contextKeyUser = contextKey("user")
+
 // Define an application struct to hold the application-wide dependencies for the
 // web application. For now we'll only include fields for the two custom logger
 // we'll add more to it as the build progresses.
