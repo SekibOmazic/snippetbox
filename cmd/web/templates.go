@@ -40,7 +40,7 @@ var functions = template.FuncMap{
 	"humanDate": humanDate,
 }
 
-func newTemaplateCache(dir string) (map[string]*template.Template, error) {
+func newTemplateCache(dir string) (map[string]*template.Template, error) {
 	// Initialize a new map to act as the cache.
 	cache := map[string]*template.Template{}
 

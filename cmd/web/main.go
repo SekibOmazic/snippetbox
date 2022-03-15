@@ -12,6 +12,7 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/golangcollege/sessions"
+	"snippetbox.sekibomazic.com/pkg/models"
 	"snippetbox.sekibomazic.com/pkg/models/mysql"
 )
 
@@ -23,12 +24,20 @@ var contextKeyUser = contextKey("user")
 // web application. For now we'll only include fields for the two custom logger
 // we'll add more to it as the build progresses.
 type application struct {
-	errorLog      *log.Logger
-	infoLog       *log.Logger
-	session       *sessions.Session
-	snippets      *mysql.SnippetModel
+	errorLog *log.Logger
+	infoLog  *log.Logger
+	session  *sessions.Session
+	snippets interface {
+		Insert(string, string, string) (int, error)
+		Get(int) (*models.Snippet, error)
+		Latest() ([]*models.Snippet, error)
+	}
 	templateCache map[string]*template.Template
-	users         *mysql.UserModel
+	users         interface {
+		Insert(string, string, string) error
+		Authenticate(string, string) (int, error)
+		Get(int) (*models.User, error)
+	}
 }
 
 func main() {
@@ -84,7 +93,7 @@ func main() {
 	defer db.Close()
 
 	// Initialize a new template cache
-	templateCache, err := newTemaplateCache("./ui/html/")
+	templateCache, err := newTemplateCache("./ui/html/")
 	if err != nil {
 		errorLog.Fatal(err)
 	}
