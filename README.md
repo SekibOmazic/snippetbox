@@ -13,7 +13,14 @@ docker-compose up -d
 and start the server from terminal with
 
 ```
-go run cmd/web/*
+go run cmd/web/!(*_test).go
 ```
 
-Now point your browser to `http://localhost:4000`
+If it doesn't work try adding following in your terminal (for MacOS):
+
+```
+setopt kshglob
+```
+
+If everything works then just point your browser to `http://localhost:4000`
+
